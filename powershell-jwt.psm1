@@ -37,7 +37,7 @@ Function New-JWT {
     $signature = switch -Wildcard ($Algorithm) {
         'HS???' { Get-SignatureHS -Algorithm $Algorithm -SecretKey $SecretKey -ToBeSigned $ToBeSigned }
         'RS???' { Get-SignatureRS -Algorithm $Algorithm -SecretKey $SecretKey -ToBeSigned $ToBeSigned }
-        Default { Write-Error -Message 'Unsupposted algorithm: ' + $Algorithm }
+        Default { Write-Error -Message 'Unsupported algorithm: ' + $Algorithm }
     }
 
     $token = $ToBeSigned + "." + $signature
