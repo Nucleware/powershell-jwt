@@ -17,7 +17,7 @@ Function Get-SignatureHS {
         "HS256" {New-Object System.Security.Cryptography.HMACSHA256}
         "HS384" {New-Object System.Security.Cryptography.HMACSHA384}
         "HS512" {New-Object System.Security.Cryptography.HMACSHA512}
-        Default {Write-Error 'Unsupported algorithm: ' + $Algorithm}
+        Default {Write-Error -Message ('Unsupported algorithm: ' + $Algorithm)}
     }
 
     $SigningAlgorithm.Key = $SecretKey

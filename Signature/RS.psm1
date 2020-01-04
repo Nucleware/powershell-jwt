@@ -19,7 +19,7 @@ Function Get-SignatureRS {
         "RS256" {[Security.Cryptography.HashAlgorithmName]::SHA256}
         "RS384" {[Security.Cryptography.HashAlgorithmName]::SHA384}
         "RS512" {[Security.Cryptography.HashAlgorithmName]::SHA512}
-        Default {Write-Error 'Unsupported algorithm: ' + $Algorithm}
+        Default {Write-Error -Message ('Unsupported algorithm: ' + $Algorithm)}
     }
 
     $rsa = ConvertFrom-PEM -PEM ([System.Text.Encoding]::UTF8.GetString($SecretKey))
