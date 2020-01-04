@@ -12,7 +12,7 @@
 RootModule = 'powershell-jwt.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.1'
+ModuleVersion = '0.0.2'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -67,6 +67,7 @@ Description = 'A JWT module for PowerShell. Supports HMAC (HS256, HS384, HS512) 
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
 NestedModules = @(
+    'BAMCIS.Crypto'
     './Base64'
     './Signature/HS'
     './Signature/RS'
