@@ -9,7 +9,7 @@
 @{
 
 # Script module or binary module file associated with this manifest.
-RootModule = 'powershell-jwt'
+RootModule = 'powershell-jwt.psm1'
 
 # Version number of this module.
 ModuleVersion = '0.0.1'
@@ -27,10 +27,10 @@ Author = 'Radu Cristescu'
 # CompanyName = ''
 
 # Copyright statement for this module
-Copyright = '(c) 2020 Radu Cristescu. All rights reserved.'
+Copyright = '(c) 2020 Radu Cristescu'
 
 # Description of the functionality provided by this module
-# Description = ''
+Description = 'A JWT module for PowerShell. Supports HMAC (HS256, HS384, HS512) and RSA (RS256, RS384, RS512) algorithms'
 
 # Minimum version of the PowerShell engine required by this module
 # PowerShellVersion = '6.2'
@@ -67,7 +67,6 @@ Copyright = '(c) 2020 Radu Cristescu. All rights reserved.'
 
 # Modules to import as nested modules of the module specified in RootModule/ModuleToProcess
 NestedModules = @(
-    'BAMCIS.Crypto'
     './Base64'
     './Signature/HS'
     './Signature/RS'
@@ -108,7 +107,7 @@ PrivateData = @{
         # LicenseUri = ''
 
         # A URL to the main website for this project.
-        # ProjectUri = ''
+        ProjectUri = 'https://github.com/Nucleware/powershell-jwt'
 
         # A URL to an icon representing this module.
         # IconUri = ''

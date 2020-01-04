@@ -1,3 +1,5 @@
+Import-Module BAMCIS.Crypto
+
 Function Get-SignatureRS {
     param (
         [Parameter(Mandatory = $True)]
