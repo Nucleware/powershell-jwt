@@ -29,3 +29,27 @@ Function Get-SignatureHS {
 
     $Signature
 }
+
+Function Confirm-SignatureHS {
+    param (
+        [Parameter(Mandatory = $True)]
+        [string]
+        $Algorithm,
+
+        [Parameter(Mandatory = $True)]
+        [System.Byte[]]
+        $SecretKey,
+
+        [Parameter(Mandatory = $True)]
+        [string]
+        $SignedData,
+
+        [Parameter(Mandatory = $True)]
+        [string]
+        $Signature
+    )
+
+    $ComputedSignature = Get-SignatureHS -Algorithm $Algorithm -SecretKey $SecretKey -ToBeSigned $SignedData
+
+    $Signature -eq $ComputedSignature
+}

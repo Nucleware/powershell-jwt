@@ -10,3 +10,23 @@ Function Convert-HashtableToJsonBase64 {
 
     $jsonbase64
 }
+
+Function Convert-JsonBase64ToHashtable {
+    param (
+        [Parameter(Mandatory = $True)]
+        [string]
+        $JsonBase64
+    )
+
+    $JsonBase64 = $JsonBase64 -replace '-', '+' -replace '_', '/'
+    switch ($JsonBase64.Length % 4) {
+        0 { break }
+        2 { $JsonBase64 += '==' }
+        3 { $JsonBase64 += '=' }
+    }
+
+    $json = [System.Text.Encoding]::UTF8.GetString([Convert]::FromBase64String($JsonBase64))
+    $hashtable = $json | ConvertFrom-Json -AsHashtable
+
+    $hashtable
+}
