@@ -40,4 +40,4 @@ This modules was inspired by:
     This module supports only RS256 and it's hard to use with plain PEMs
 
 By the power of these two projects combined, and using [BAMCIS.Crypto](https://github.com/bamcisnetworks/BAMCIS.Crypto)
-to convert a PEM to an `RSACryptoServiceProvider` object, you now have an easy way to generate a more flexible JWT in PowerShell.
+to convert a PEM to an `RSACryptoServiceProvider` object, you now have an easy way to use JWT in PowerShell.
