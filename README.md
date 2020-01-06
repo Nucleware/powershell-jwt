@@ -31,7 +31,7 @@ and I needed JWT with RSA signatures to interface with another data source.
 
 This modules was inspired by:
 
-* https://www.reddit.com/r/PowerShell/comments/8bc3rb/generate_jwt_json_web_token_in_powershell/
+* <https://www.reddit.com/r/PowerShell/comments/8bc3rb/generate_jwt_json_web_token_in_powershell/>
 
     This code supports only HMAC algorithms, but it was a great starting point
 
