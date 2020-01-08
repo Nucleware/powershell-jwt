@@ -4,7 +4,7 @@ Function Get-ExpiryTimeStamp {
     param (
         [int]$ValidForSeconds = 30
     )
-    $exp = [int][double]::parse((Get-Date -Date $((Get-Date).addseconds($ValidforSeconds).ToUniversalTime()) -UFormat %s)) # Grab Unix Epoch Timestamp and add desired expiration.
+    $exp = [int](Get-Date -UFormat %s) + $ValidForSeconds # Grab Unix Epoch Timestamp and add desired expiration.
     $exp
 }
 
