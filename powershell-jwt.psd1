@@ -27,7 +27,7 @@ Author = 'Radu Cristescu'
 # CompanyName = ''
 
 # Copyright statement for this module
-Copyright = '(c) 2020 Radu Cristescu'
+Copyright = '(c) 2020-2023 Radu Cristescu'
 
 # Description of the functionality provided by this module
 Description = 'A JWT module for PowerShell. Supports HMAC (HS256, HS384, HS512) and RSA (RS256, RS384, RS512) algorithms'
