@@ -11,11 +11,9 @@ Function New-JWT {
         [hashtable]
         $HeaderClaims = @{},
 
-        [Parameter(Mandatory = $True)]
         [string]
         $Issuer,
 
-        [Parameter(Mandatory = $True)]
         [int]
         $ExpiryTimestamp,
 
@@ -52,6 +50,9 @@ Function Confirm-JWT {
         [string]
         $JWT,
 
+        [string]
+        $AcceptedAlgorithm,
+
         [Parameter(Mandatory = $True)]
         [System.Byte[]]
         $Key
@@ -64,6 +65,9 @@ Function Confirm-JWT {
     $JwtPayload = Convert-JsonBase64ToHashtable -JsonBase64 $JwtPayloadB64
 
     $Algorithm = $JwtHeader.alg
+
+    $isAlgorithmAccepted = $null -eq $AcceptedAlgorithm -or $AcceptedAlgorithm -eq $Algorithm
+
     $isSignatureValid = switch -Wildcard ($Algorithm) {
         'HS???' { Confirm-SignatureHS -Algorithm $Algorithm -SecretKey $Key -SignedData $SignedData -Signature $JwtSignatureB64 }
         'RS???' { Confirm-SignatureRS -Algorithm $Algorithm -PublicKey $Key -SignedData $SignedData -Signature $JwtSignatureB64 }
@@ -73,7 +77,7 @@ Function Confirm-JWT {
     @{
         'header' = $JwtHeader
         'payload' = $JwtPayload
-        'isSignatureValid' = $isSignatureValid
+        'isSignatureValid' = $isAlgorithmAccepted -and $isSignatureValid
     }
 }
 
@@ -101,11 +105,9 @@ Function New-JwtHeader {
 Function New-JwtPayload {
     [CmdletBinding()]
     param (
-        [Parameter(Mandatory = $True)]
         [string]
         $Issuer,
 
-        [Parameter(Mandatory = $True)]
         [int]
         $ExpiryTimestamp,
 
@@ -113,10 +115,15 @@ Function New-JwtPayload {
         $ExtraClaims = @{}
     )
 
-    $payload = @{
-        iss = $Issuer
-        exp = $ExpiryTimestamp
-    } + $ExtraClaims
+    $payload = @{}
+    if ($Issuer -ne $null) {
+        $payload['iss'] = $Issuer
+    }
+    if ($ExpiryTimestamp -ne $null) {
+        $payload['exp'] = $ExpiryTimestamp
+    }
+
+    $payload += $ExtraClaims
 
     $payload
 }
