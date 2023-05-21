@@ -4,19 +4,111 @@
 
 Create, validate and decode JWT in PowerShell easily.
 
-Supported algorithms: HS256, HS384, HS512, RS256, RS384, RS512
+Supported algorithms:
+
+- Symmetric Key
+  - HS256
+  - HS384
+  - HS512
+- Asymmetric Key
+  - RS256
+  - RS384
+  - RS512
 
 ## Install
+
+This module is published on the [PowerShell Gallery](https://www.powershellgallery.com/packages/powershell-jwt/)
+
+To install it, you can run the following command:
 
 ```powershell
 Install-Module powershell-jwt
 ```
 
+To update an installed version of the module, you can run the following command:
+
+```powershell
+Update-Module powershell-jwt
+```
+
 ## Usage
 
-Please see the `example` directory for a quick example
+Please see the [example](./example) directory for a quick example
 
-Short version: There are two functions: `New-JWT` and `Confirm-JWT` and you can use them to create or validate and decode JWT.
+There are two functions: `New-JWT` and `Confirm-JWT` and you can use them to create or validate and decode JWT.
+
+### Import this module
+
+```powershell
+Import-Module 'powershell-jwt'
+```
+
+### `New-JWT`
+
+Create a signed JWT token.
+
+```powershell
+New-JWT
+  -Algorithm <string>
+  -SecretKey <byte[]>
+  [-Type <string>]
+  [-Issuer <string>]
+  [-ExpiryTimestamp <int>]
+  [-HeaderClaims <hashtable>]
+  [-PayloadClaims <hashtable>]
+```
+
+| Parameter | Description |
+| --- | --- |
+| `Algorithm` | The algorithm to be used for the signature |
+| `SecretKey` | The key to be used for the signature<br>Must be appropriate for the given `Algorithm` |
+| `Type`<br>_Optional_ | (Default: `JWT`) Specify the type of the token |
+| `Issuer`<br>_Optional_ | Specify the value of the `iss` claim<br>If provided with this parameter, please do not include the `iss` claim in `PayloadClaims` |
+| `ExpiryTimeStamp`<br>_Optional_ | UNIX timestamp. Specifies when the token expires.<br>If provided with this parameter, please do not include the `exp` claim in `PayloadClaims` |
+| `HeaderClaims`<br>_Optional_ | A hashtable (dictionary) of claims to add the the token header |
+| `PayloadClaims`<br>_Optional_ | A hashtable (dictionary) of claims to add the the token payload |
+
+### `Confirm-JWT`
+
+Decode a JWT and validate its signature
+
+```powershell
+Confirm-JWT
+  -JWT <string>
+  -Key <byte[]>
+  [-AcceptedAlgorithm <string>]
+```
+
+| Parameter | Description |
+| --- | --- |
+| `JWT` | And encoded JWT token |
+| `Key` | The appropriate symmetric key or public key to be used to verify the signature |
+| `AcceptedAlgorithm`<br>_Optional_<br>**Strongly Recommended** | Specify the algorithm that the JWT should have been signed with<br>It is strongly recommended that you do not let the JWT token to specify its signing algorithm, lest you get the problems described by e.g. [CVE-2015-9235](https://nvd.nist.gov/vuln/detail/CVE-2015-9235), [CVE-2016-5431](https://nvd.nist.gov/vuln/detail/CVE-2016-5431), [CVE-2016-10555](https://nvd.nist.gov/vuln/detail/CVE-2016-10555) |
+
+### RSA keys
+
+This module accepts **RSA keys in the PEM format**. If you have a DER format key, you can convert it with this command:
+
+```shell
+# convert DER to PEM
+openssl x509 -inform der -in private_key.der -out private_key.pem
+```
+
+You can extract the public key from a private key with this command:
+
+```shell
+# extract public key
+openssl rsa -pubout -in private_key.pem -out public_key.pem
+```
+
+To generate your own RSA key pairs do something like this:
+
+```shell
+# generate private key
+openssl genpkey -algorithm RSA -out private_key.pem -pkeyopt rsa_keygen_bits:2048
+# extract public key
+openssl rsa -pubout -in private_key.pem -out public_key.pem
+```
 
 ## Code quality 🤦
 
