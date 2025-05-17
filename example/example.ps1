@@ -1,12 +1,14 @@
 Import-Module 'powershell-jwt'
 
 Function Get-CurrentTimestamp {
-    [int](Get-Date -UFormat %s) # Grab Unix Epoch Timestamp
+    [int64](Get-Date -UFormat %s) # Grab Unix Epoch Timestamp
+    # Alternative:
+    # ([DateTimeOffset][DateTime]::UtcNow).ToUnixTimeSeconds()
 }
 
 Function Get-ExpiryTimeStamp {
     param (
-        [int]$ValidForSeconds = 30
+        [int64]$ValidForSeconds = 30
     )
     $exp = (Get-CurrentTimestamp) + $ValidForSeconds # Grab Unix Epoch Timestamp and add desired expiration.
     $exp
@@ -19,7 +21,7 @@ $rsaPublicKey = Get-Content "./public_key.pem" -AsByteStream
 
 $exp = Get-ExpiryTimeStamp -ValidForSeconds 30
 $payloadClaims = @{
-    name = "John Smith"
+    name  = "John Smith"
     roles = @(
         'ROLE_READ_DATA'
         'ROLE_WRITE_DATA'

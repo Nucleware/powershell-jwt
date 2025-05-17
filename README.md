@@ -53,7 +53,7 @@ New-JWT
   -SecretKey <byte[]>
   [-Type <string>]
   [-Issuer <string>]
-  [-ExpiryTimestamp <int>]
+  [-ExpiryTimestamp <int64> (UNIX timestamp in seconds)]
   [-HeaderClaims <hashtable>]
   [-PayloadClaims <hashtable>]
 ```
@@ -64,7 +64,7 @@ New-JWT
 | `SecretKey` | The key to be used for the signature<br>Must be appropriate for the given `Algorithm` |
 | `Type`<br>_Optional_ | (Default: `JWT`) Specify the type of the token |
 | `Issuer`<br>_Optional_ | Specify the value of the `iss` claim<br>If provided with this parameter, please do not include the `iss` claim in `PayloadClaims` |
-| `ExpiryTimeStamp`<br>_Optional_ | UNIX timestamp. Specifies when the token expires.<br>If provided with this parameter, please do not include the `exp` claim in `PayloadClaims` |
+| `ExpiryTimeStamp`<br>_Optional_ | UNIX timestamp (in seconds). Specifies when the token expires.<br>If provided with this parameter, please do not include the `exp` claim in `PayloadClaims`<br>Here are two waits to generate this:<br>1. `$exp = [int64](Get-Date -UFormat %s) + $ValidForSeconds`<br>2. `$exp = ([DateTimeOffset][DateTime]::UtcNow.AddSeconds(300)).ToUnixTimeSeconds()`<br>A warning will be issued if the timstamp is above `1E12`. |
 | `HeaderClaims`<br>_Optional_ | A hashtable (dictionary) of claims to add the the token header |
 | `PayloadClaims`<br>_Optional_ | A hashtable (dictionary) of claims to add the the token payload |
 

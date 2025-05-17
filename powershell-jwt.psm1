@@ -14,7 +14,7 @@ Function New-JWT {
         [string]
         $Issuer,
 
-        [int]
+        [int64]
         $ExpiryTimestamp,
 
         [hashtable]
@@ -58,7 +58,7 @@ Function Confirm-JWT {
         $Key
     )
 
-    $JwtHeaderB64,$JwtPayloadB64,$JwtSignatureB64 = $JWT -split '\.'
+    $JwtHeaderB64, $JwtPayloadB64, $JwtSignatureB64 = $JWT -split '\.'
     $SignedData = $JwtHeaderB64 + "." + $JwtPayloadB64
 
     $JwtHeader = Convert-JsonBase64ToHashtable -JsonBase64 $JwtHeaderB64
@@ -75,8 +75,8 @@ Function Confirm-JWT {
     }
 
     @{
-        'header' = $JwtHeader
-        'payload' = $JwtPayload
+        'header'           = $JwtHeader
+        'payload'          = $JwtPayload
         'isSignatureValid' = $isAlgorithmAccepted -and $isSignatureValid
     }
 }
@@ -108,7 +108,7 @@ Function New-JwtPayload {
         [string]
         $Issuer,
 
-        [int]
+        [int64]
         $ExpiryTimestamp,
 
         [hashtable]
@@ -120,6 +120,10 @@ Function New-JwtPayload {
         $payload['iss'] = $Issuer
     }
     if ($ExpiryTimestamp -ne $null) {
+        # Display a warning if the timestamp is a ridiculous number
+        if ($ExpiryTimestamp -gt 1E12) {
+            Write-Warning "[powershell-jwt::New-JwtPayload] The expiry timestamp is supposed to be given in seconds. Were milli/micro/nanoseconds passed by mistake?"
+        }
         $payload['exp'] = $ExpiryTimestamp
     }
 

@@ -12,7 +12,7 @@
 RootModule = 'powershell-jwt.psm1'
 
 # Version number of this module.
-ModuleVersion = '0.0.6'
+ModuleVersion = '0.0.7'
 
 # Supported PSEditions
 # CompatiblePSEditions = @()
@@ -27,7 +27,7 @@ Author = 'Radu Cristescu'
 # CompanyName = ''
 
 # Copyright statement for this module
-Copyright = '(c) 2020-2023 Radu Cristescu'
+Copyright = '(c) 2020-2025 Radu Cristescu'
 
 # Description of the functionality provided by this module
 Description = 'A JWT module for PowerShell. Supports HMAC (HS256, HS384, HS512) and RSA (RS256, RS384, RS512) algorithms'
